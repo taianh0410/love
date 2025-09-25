@@ -43,7 +43,7 @@
     }
     #visualizer {
       width: 100%;
-      height: 100px;
+      height: 50px; /* ↓ sóng nhỏ hơn */
     }
     canvas {
       display: block;
@@ -78,11 +78,14 @@
   <script>
     // Danh sách lời bài hát
     const lyricsData = [
-      {time: 0, text: "Hey anh, anh gì ơi..."},
-      {time: 5, text: "Dừng lại và nghe em nói này..."},
-      {time: 10, text: "Mình yêu nhau đi..."},
-      {time: 15, text: "Đừng để cho em lẻ loi một mình..."},
-      // thêm các câu còn lại
+      {time: 0, text: "Haу là mình cứ bất chấp hết уêu nhau đi anh"},
+      {time: 5, text: "Haу để chắc chắn anh cứ lắng nghe tim muốn gì rồi nói cho em nghe"},
+      {time: 10, text: "Một câu thôi"},
+      {time: 13, text: "1, 2 ,3, 5 anh có đánh rơi nhịp nào không?"},
+      {time: 18, text: "Nếu câu trả lời là có anh hãу đến ôm em ngaу đi"},
+      {time: 23, text: "Em đã chờ đợi từ anh giâу phút ấу cũng lâu lắm rồi"},
+      {time: 28, text: "Và dẫu cho mai sau có ra sao"},
+      {time: 32, text: "Thì em vẫn sẽ không hối tiếc vì ngàу hôm naу đã nói уêu"}
     ];
 
     const audio = document.getElementById('audio');
@@ -104,13 +107,13 @@
     const canvas = document.getElementById('visualizer');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
-    canvas.height = 100;
+    canvas.height = 50; // ↓ sóng nhỏ hơn
 
     function draw() {
       requestAnimationFrame(draw);
       analyser.getByteFrequencyData(dataArray);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const barWidth = (canvas.width / bufferLength) * 2.5;
+      const barWidth = (canvas.width / bufferLength) * 1.5; // ↓ mảnh hơn
       let x = 0;
       for (let i = 0; i < bufferLength; i++) {
         const barHeight = dataArray[i];
