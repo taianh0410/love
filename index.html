@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,7 @@
     body {
       background: url('love-background.jpg') no-repeat center center fixed;
       background-size: cover;
-      color: #ff69b4;
+      color: #ffffff; /* chữ trắng */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -16,21 +16,43 @@
       height: 100vh;
       overflow: hidden;
       font-family: 'Arial', sans-serif;
+      position: relative;
     }
+
+    /* Mưa trái tim */
+    .heart {
+      position: absolute;
+      top: -50px;
+      color: #ff69b4;
+      font-size: 20px;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
     #lyrics {
       font-size: 3rem;
       text-align: center;
       position: relative;
-      text-shadow: 0 0 10px #ff69b4;
+      text-shadow: 0 0 10px #ffffff; /* chữ sáng */
       margin-top: 30px;
+      z-index: 2;
     }
     .particle {
       position: absolute;
       font-size: 3rem;
       opacity: 1;
       animation: disperse 1.5s forwards;
-      color: #ff69b4;
-      text-shadow: 0 0 10px #ff69b4;
+      color: #ffffff; /* chữ hạt trắng */
+      text-shadow: 0 0 10px #ffffff;
     }
     @keyframes disperse {
       to {
@@ -41,21 +63,28 @@
         opacity: 0;
       }
     }
+
+    /* Visualizer nhỏ ở giữa */
     #visualizer {
-      width: 100%;
-      height: 50px; /* ↓ sóng nhỏ hơn */
+      width: 50%; /* chỉ 50% chiều ngang */
+      height: 40px; /* sóng nhỏ */
+      margin-top: 20px;
+      z-index: 2;
     }
     canvas {
       display: block;
+      margin: 0 auto; /* canh giữa */
     }
+
     #playBtn {
       font-size:2rem;
       background:none;
       border:none;
-      color:#ff69b4;
+      color:#ffffff;
       cursor:pointer;
       margin-top:20px;
-      text-shadow: 0 0 10px #ff69b4;
+      text-shadow: 0 0 10px #ffffff;
+      z-index: 2;
     }
   </style>
 </head>
@@ -76,7 +105,7 @@
   <div id="lyrics"></div>
 
   <script>
-    // Danh sách lời bài hát
+    // Lời bài hát
     const lyricsData = [
       {time: 0, text: "Haу là mình cứ bất chấp hết уêu nhau đi anh"},
       {time: 5, text: "Haу để chắc chắn anh cứ lắng nghe tim muốn gì rồi nói cho em nghe"},
@@ -106,14 +135,14 @@
     // Visualizer
     const canvas = document.getElementById('visualizer');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = 50; // ↓ sóng nhỏ hơn
+    canvas.width = window.innerWidth * 0.5; // 50% chiều ngang
+    canvas.height = 40;
 
     function draw() {
       requestAnimationFrame(draw);
       analyser.getByteFrequencyData(dataArray);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const barWidth = (canvas.width / bufferLength) * 1.5; // ↓ mảnh hơn
+      const barWidth = (canvas.width / bufferLength) * 1.5;
       let x = 0;
       for (let i = 0; i < bufferLength; i++) {
         const barHeight = dataArray[i];
@@ -157,6 +186,18 @@
         document.getElementById('playBtn').style.display = 'none';
       });
     });
+
+    // Tạo mưa trái tim
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = '❤';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.animationDuration = (3 + Math.random() * 2) + 's'; // tốc độ rơi
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 300);
   </script>
 </body>
 </html>
